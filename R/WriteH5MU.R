@@ -140,8 +140,9 @@ WriteH5ADHelper <- function(object, assay, root, global = FALSE) {
         if (paste0("X_", red_name) %in% names(OBSM2VARM)) {
           varm_key = OBSM2VARM[[paste0("X_", red_name)]]
         }
-
-        varm_group$create_dataset(varm_key, t(loadings))
+        if (!is.null(varm_key)){
+         varm_group$create_dataset(varm_key, t(loadings))
+        }
       }
 
       # stdev -> .uns[...]['variance']
@@ -347,7 +348,9 @@ setMethod("WriteH5MU", "Seurat", function(object, file, overwrite) {
             varm <- h5[["varm"]]
           }
         }
-        varm$create_dataset(varm_key, t(loadings))
+        if (!is.null(varm_key)){
+            varm$create_dataset(varm_key, t(loadings))
+        }
       }
 
       # stdev -> .uns[...]['variance']
